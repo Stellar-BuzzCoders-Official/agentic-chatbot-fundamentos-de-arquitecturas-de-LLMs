@@ -1,5 +1,7 @@
 # Asistente de Soporte con Grounding y Control de Alucinación
 
+**🌐 URL del Proyecto Desplegado en Render:** [https://khronos-agent-chat.onrender.com](https://khronos-agent-chat.onrender.com)
+
 Este proyecto es la implementación de la **Opción 2 del Proyecto Final del curso "Fundamentos de Arquitectura LLM"**. Es un sistema de agente conversacional construido con LangGraph, FastAPI y DynamoDB, diseñado para una tienda virtual de tazas personalizadas ("Khronos").
 
 El sistema demuestra la implementación práctica de técnicas anti-alucinación, Grounding (RAG), y Guardarraíles.
