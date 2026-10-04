@@ -34,6 +34,15 @@ pip install -r requirements.txt
 fastapi dev main.py
 ```
 
+### 📦 Poblar la Base de Datos (Seed)
+
+Antes de iniciar las pruebas, es indispensable popular (seed) las tablas de DynamoDB con las políticas y preguntas frecuentes de la tienda.
+Asegúrate de tener tus credenciales de AWS configuradas en tu `.env` o en tu entorno de AWS CLI, y ejecuta:
+
+```bash
+python seed_faq.py
+```
+
 _Nota: Asegúrate de tener tus credenciales de AWS en el archivo `.env` en la raíz del proyecto._
 
 ## 🏗️ Arquitectura y Stack Tecnológico
