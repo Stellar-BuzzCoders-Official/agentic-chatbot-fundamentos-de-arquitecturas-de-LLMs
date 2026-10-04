@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: khronos-agent-chat
+    env: python
+    plan: free
+    rootDir: .
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_DEFAULT_REGION
+        value: us-east-1
+      - key: DYNAMODB_TABLE_PRODUCTS
+        value: TazasProducts
+      - key: DYNAMODB_TABLE_FAQ
+        value: TazasFAQ
+      - key: DYNAMODB_TABLE_MEMORY
+        value: TazasChatHistory
+      - key: DYNAMODB_TABLE_CONTACTS
+        value: TazasContacts
+      - key: AZURE_OPENAI_API_KEY
+        sync: false
+      - key: AZURE_OPENAI_ENDPOINT
+        sync: false
+      - key: AZURE_OPENAI_API_VERSION
+        value: 2024-12-01-preview
+      - key: AZURE_OPENAI_DEPLOYMENT_NAME
+        value: gpt-5.1-prospectora
+      - key: WHATSAPP_VERIFY_TOKEN
+        sync: false
+      - key: WHATSAPP_PHONE_NUMBER_ID
+        sync: false
+      - key: WHATSAPP_TOKEN
+        sync: false

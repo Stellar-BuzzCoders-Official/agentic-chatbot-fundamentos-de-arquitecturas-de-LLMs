@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  agent-chat:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - ../.env
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    depends_on:
+      - dynamodb-local
+      - ollama
+    networks:
+      - chatbot-network
+
+  dynamodb-local:
+    image: amazon/dynamodb-local:2.5.2
+    ports:
+      - "8002:8000"
+    command: "-jar DynamoDBLocal.jar -sharedDb -inMemory"
+    networks:
+      - chatbot-network
+
+  ollama:
+    image: ollama/ollama:0.3.14
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - chatbot-network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  ollama-init:
+    image: curlimages/curl:8.7.1
+    depends_on:
+      - ollama
+    networks:
+      - chatbot-network
+    command: >
+      sh -c "
+        echo 'Waiting for Ollama to be available...' &&
+        while ! curl -s http://ollama:11434/api/tags > /dev/null; do sleep 1; done &&
+        echo 'Ollama is up. Pulling qwen3-vl:8b model...' &&
+        curl -X POST http://ollama:11434/api/pull -d '{\"name\": \"qwen3-vl:8b\"}' &&
+        echo 'Model pulled successfully.'
+      "
+
+volumes:
+  ollama_data:
+
+networks:
+  chatbot-network:
+    driver: bridge
